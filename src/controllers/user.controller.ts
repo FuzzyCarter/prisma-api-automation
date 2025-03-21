@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { prisma } from '../lib/prisma';
 import { BaseController } from './base.controller';
-import { SwaggerRoute, SwaggerResponse } from '../types/swagger';
-import { createUserSchema, userSchema } from '../types/validation';
+import { SwaggerRoute } from '../types/swagger';
+import { userSchema } from '../types/validation';
 
 export class UserController extends BaseController {
   public name = 'User';
@@ -12,7 +12,6 @@ export class UserController extends BaseController {
       path: '/users',
       method: 'get',
       summary: 'Get all users',
-      tags: ['Users'],
       responses: {
         '200': {
           description: 'List of users',
@@ -33,13 +32,15 @@ export class UserController extends BaseController {
       path: '/users/{id}',
       method: 'get',
       summary: 'Get user by ID',
-      tags: ['Users'],
       parameters: [
         {
           in: 'path',
           name: 'id',
           required: true,
-          schema: { type: 'integer' }
+          schema: { 
+            type: 'integer'
+          },
+          example: 1
         }
       ],
       responses: {
@@ -62,9 +63,7 @@ export class UserController extends BaseController {
       path: '/users',
       method: 'post',
       summary: 'Create a new user',
-      tags: ['Users'],
       requestBody: {
-        required: true,
         content: {
           'application/json': {
             schema: {
@@ -73,16 +72,18 @@ export class UserController extends BaseController {
               properties: {
                 email: {
                   type: 'string',
-                  format: 'email',
-                  description: 'User email address'
+                  description: 'User email address',
+                  example: 'user@example.com'
                 },
                 name: {
                   type: 'string',
-                  description: 'User name'
+                  description: 'User name',
+                  example: 'John Doe'
                 },
                 address: {
                   type: 'string',
-                  description: 'User address'
+                  description: 'User address',
+                  example: '123 Main St'
                 }
               }
             }
@@ -106,17 +107,18 @@ export class UserController extends BaseController {
       path: '/users/{id}',
       method: 'put',
       summary: 'Update user by ID',
-      tags: ['Users'],
       parameters: [
         {
           in: 'path',
           name: 'id',
           required: true,
-          schema: { type: 'integer' }
+          schema: { 
+            type: 'integer'
+          },
+          example: 1
         }
       ],
       requestBody: {
-        required: true,
         content: {
           'application/json': {
             schema: {
@@ -124,16 +126,18 @@ export class UserController extends BaseController {
               properties: {
                 email: {
                   type: 'string',
-                  format: 'email',
-                  description: 'User email address'
+                  description: 'User email address',
+                  example: 'user@example.com'
                 },
                 name: {
                   type: 'string',
-                  description: 'User name'
+                  description: 'User name',
+                  example: 'John Doe'
                 },
                 address: {
                   type: 'string',
-                  description: 'User address'
+                  description: 'User address',
+                  example: '123 Main St'
                 }
               }
             }
@@ -160,13 +164,15 @@ export class UserController extends BaseController {
       path: '/users/{id}',
       method: 'delete',
       summary: 'Delete user by ID',
-      tags: ['Users'],
       parameters: [
         {
           in: 'path',
           name: 'id',
           required: true,
-          schema: { type: 'integer' }
+          schema: { 
+            type: 'integer'
+          },
+          example: 1
         }
       ],
       responses: {

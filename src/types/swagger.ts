@@ -1,20 +1,13 @@
 import { z } from 'zod';
 
-export interface SwaggerSchema {
-  type: string;
-  properties: Record<string, any>;
-  required?: string[];
-}
-
 export interface SwaggerParameter {
   in: 'path' | 'query' | 'header' | 'body';
   name: string;
   required?: boolean;
   schema: {
     type: string;
-    format?: string;
-    items?: any;
   };
+  example?: any;
 }
 
 export interface SwaggerResponse {
@@ -36,7 +29,6 @@ export interface SwaggerRoute {
   path: string;
   method: string;
   summary: string;
-  tags: string[];
   parameters?: Array<{
     in: string;
     name: string;
@@ -44,9 +36,9 @@ export interface SwaggerRoute {
     schema: {
       type: string;
     };
+    example?: any;
   }>;
   requestBody?: {
-    required: boolean;
     content: {
       'application/json': {
         schema: {
@@ -54,8 +46,8 @@ export interface SwaggerRoute {
           required?: string[];
           properties?: Record<string, {
             type: string;
-            format?: string;
             description?: string;
+            example?: any;
           }>;
           $ref?: string;
         };
@@ -84,19 +76,8 @@ export interface SwaggerController {
   routes: SwaggerRoute[];
 }
 
-export function SwaggerSchema(schema: z.ZodType<any>) {
-  return function (target: any) {
-    // Store schema metadata for later use
-    if (!target.swaggerSchema) {
-      target.swaggerSchema = schema;
-    }
-    return target;
-  };
-}
-
 export function SwaggerResponse(status: number, description: string, schema?: any) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const originalMethod = descriptor.value;
     
     if (!target.swaggerResponses) {
       target.swaggerResponses = new Map();

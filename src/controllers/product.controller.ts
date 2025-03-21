@@ -12,7 +12,6 @@ export class ProductController extends BaseController {
       path: '/products',
       method: 'get',
       summary: 'Get all products',
-      tags: ['Products'],
       responses: {
         '200': {
           description: 'List of products',
@@ -33,13 +32,15 @@ export class ProductController extends BaseController {
       path: '/products/{id}',
       method: 'get',
       summary: 'Get product by ID',
-      tags: ['Products'],
       parameters: [
         {
           in: 'path',
           name: 'id',
           required: true,
-          schema: { type: 'integer' }
+          schema: { 
+            type: 'integer'
+          },
+          example: 1
         }
       ],
       responses: {
@@ -62,7 +63,6 @@ export class ProductController extends BaseController {
       path: '/products',
       method: 'post',
       summary: 'Create a new product',
-      tags: ['Products'],
       responses: {
         '201': {
           description: 'Product created successfully',
@@ -80,13 +80,15 @@ export class ProductController extends BaseController {
       path: '/products/{id}',
       method: 'put',
       summary: 'Update product by ID',
-      tags: ['Products'],
       parameters: [
         {
           in: 'path',
           name: 'id',
           required: true,
-          schema: { type: 'integer' }
+          schema: { 
+            type: 'integer'
+          },
+          example: 1
         }
       ],
       responses: {
@@ -109,13 +111,15 @@ export class ProductController extends BaseController {
       path: '/products/{id}',
       method: 'delete',
       summary: 'Delete product by ID',
-      tags: ['Products'],
       parameters: [
         {
           in: 'path',
           name: 'id',
           required: true,
-          schema: { type: 'integer' }
+          schema: { 
+            type: 'integer'
+          },
+          example: 1
         }
       ],
       responses: {

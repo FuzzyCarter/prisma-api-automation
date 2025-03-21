@@ -49,7 +49,8 @@ https://www.prisma.io/docs
 5. Generate Integration Tests
    * https://github.com/Levetty/prisma-generator-integration-test-runner
    * `npm install -D dredd`
-   * 
+   * `npm install --save-dev start-server-and-test`
+   * `npm run test:api`
 6. Populate the DB
    * https://github.com/luisrudge/prisma-generator-fake-data
    * `npm install -D prisma-generator-fake-data`

@@ -1,0 +1,23 @@
+dry-run: null
+hookfiles: 
+  - src/test/hooks.ts
+language: nodejs
+server: npm run dev
+server-wait: 3
+init: false
+custom: {}
+names: false
+only: []
+reporter: []
+output: []
+header: []
+sorted: false
+user: null
+inline-errors: false
+details: false
+method: []
+color: true
+loglevel: debug
+path: []
+blueprint: swagger-output.json
+endpoint: 'http://localhost:3000' 

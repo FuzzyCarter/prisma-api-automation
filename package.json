@@ -9,7 +9,9 @@
     "swagger-autogen": "ts-node src/lib/swagger-generator.ts",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
-    "test": "jest"
+    "test": "jest",
+    "test:api": "npm run swagger-autogen && dredd",
+    "test:api:watch": "npm run swagger-autogen && dredd --watch"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",

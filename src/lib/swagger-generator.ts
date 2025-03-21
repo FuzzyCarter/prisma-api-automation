@@ -1,5 +1,9 @@
 import { z } from 'zod';
 import { BaseController } from '../controllers/base.controller';
+import { UserController } from '../controllers/user.controller';
+import { ProductController } from '../controllers/product.controller';
+import * as fs from 'fs';
+import * as path from 'path';
 
 interface SwaggerDoc {
   openapi: string;
@@ -16,10 +20,49 @@ interface SwaggerDoc {
   components: {
     schemas: Record<string, any>;
   };
-  tags: Array<{
-    name: string;
+}
+
+interface Operation {
+  summary: string;
+  responses: Record<string, {
     description: string;
+    content?: {
+      'application/json': {
+        schema: {
+          type?: string;
+          items?: {
+            $ref: string;
+          };
+          $ref?: string;
+        };
+      };
+    };
   }>;
+  parameters?: Array<{
+    in: string;
+    name: string;
+    required: boolean;
+    schema: {
+      type: string;
+      example?: any;
+    };
+  }>;
+  requestBody?: {
+    content: {
+      'application/json': {
+        schema: {
+          type?: string;
+          required?: string[];
+          properties?: Record<string, {
+            type: string;
+            description?: string;
+            example?: any;
+          }>;
+          $ref?: string;
+        };
+      };
+    };
+  };
 }
 
 export function generateSwaggerDoc(controllers: BaseController[]): SwaggerDoc {
@@ -39,17 +82,7 @@ export function generateSwaggerDoc(controllers: BaseController[]): SwaggerDoc {
     paths: {},
     components: {
       schemas: {}
-    },
-    tags: [
-      {
-        name: 'Users',
-        description: 'User management endpoints',
-      },
-      {
-        name: 'Products',
-        description: 'Product management endpoints',
-      },
-    ]
+    }
   };
 
   // Collect schemas from controllers
@@ -70,13 +103,22 @@ export function generateSwaggerDoc(controllers: BaseController[]): SwaggerDoc {
         doc.paths[path] = {};
       }
 
-      doc.paths[path][route.method] = {
-        tags: route.tags,
+      const operation: Operation = {
         summary: route.summary,
-        parameters: route.parameters || [],
-        requestBody: route.requestBody,
         responses: route.responses
       };
+
+      // Add parameters if they exist
+      if (route.parameters && route.parameters.length > 0) {
+        operation.parameters = route.parameters;
+      }
+
+      // Add request body if it exists
+      if (route.requestBody) {
+        operation.requestBody = route.requestBody;
+      }
+
+      doc.paths[path][route.method] = operation;
     });
   });
 
@@ -107,15 +149,13 @@ function zodToSwaggerSchema(schema: z.ZodType<any>): any {
 
   if (schema instanceof z.ZodString) {
     return {
-      type: 'string',
-      format: schema._def.checks?.find((check: any) => check.kind === 'email') ? 'email' : undefined
+      type: 'string'
     };
   }
 
   if (schema instanceof z.ZodNumber) {
     return {
-      type: 'number',
-      format: 'float'
+      type: 'number'
     };
   }
 
@@ -127,4 +167,16 @@ function zodToSwaggerSchema(schema: z.ZodType<any>): any {
   }
 
   return { type: 'string' };
-} 
+}
+
+// Write the Swagger documentation to a file
+const controllers: BaseController[] = [
+  new UserController(),
+  new ProductController()
+];
+
+const swaggerDoc = generateSwaggerDoc(controllers);
+fs.writeFileSync(
+  path.join(__dirname, '../../swagger-output.json'),
+  JSON.stringify(swaggerDoc, null, 2)
+); 
