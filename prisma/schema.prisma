@@ -1,0 +1,32 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+generator docs {
+  provider = "node node_modules/prisma-docs-generator"
+}
+
+generator custom_generator {
+  provider = "prisma-generator-fake-data"
+  output   = "./faker/data.ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      Int     @id @unique @default(autoincrement())
+  email   String
+  name    String?
+  address String?
+}
+
+model Product {
+  id          Int     @id @unique @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+}

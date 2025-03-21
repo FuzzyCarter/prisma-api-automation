@@ -1,0 +1,64 @@
+{
+  "name": "prisma-api-automation",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "swagger-autogen": "ts-node src/lib/swagger-generator.ts",
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev",
+    "test": "jest",
+    "test:api": "npm run swagger-autogen && dredd",
+    "test:api:watch": "npm run swagger-autogen && dredd --watch"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@prisma/client": "^5.10.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "framer-motion": "^11.0.3",
+    "reflect-metadata": "^0.2.2",
+    "swagger-autogen": "^2.23.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "swagger-ui-express": "^5.0.0",
+    "zod": "^3.22.4"
+  },
+  "description": "API automation with Prisma and Express",
+  "main": "dist/app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FuzzyCarter/prisma-api-automation.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FuzzyCarter/prisma-api-automation/issues"
+  },
+  "homepage": "https://github.com/FuzzyCarter/prisma-api-automation#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.19",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@types/swagger-ui-express": "^4.1.6",
+    "and": "^0.0.3",
+    "dredd": "^14.1.0",
+    "jest": "^29.7.0",
+    "prisma": "^5.10.0",
+    "prisma-docs-generator": "^0.8.0",
+    "prisma-generator-express": "^1.16.6",
+    "prisma-generator-fake-data": "^0.14.3",
+    "prisma-zod-generator": "^0.8.13",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
+  }
+}
